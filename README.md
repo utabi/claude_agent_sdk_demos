@@ -22,6 +22,7 @@ npm install
 | 07 | 07_programmatic_tools.mjs | プログラマティックツール制御 | $0.24 |
 | 08 | 08_native_subagents.mjs | ネイティブサブエージェント | $0.43 |
 | 09 | 09_dev_cycle.mjs | 開発サイクル自動化 | $0.17 |
+| 10 | 10_skills.mjs | Agent Skills（能力拡張） | $0.12 |
 
 ## 実行方法
 
@@ -51,6 +52,7 @@ node 09_dev_cycle.mjs --task "FizzBuzz関数を実装して"
 - **05**: MCPサーバー（カスタムツール追加）
 - **06**: 並列ツール呼び出し
 - **07**: プログラマティックツール制御（allowedTools, canUseTool）
+- **10**: Agent Skills（SKILL.mdで能力拡張）
 
 ### 実践的なワークフロー
 - **09**: 開発サイクル自動化（実装→ビルド→テスト→修正）
