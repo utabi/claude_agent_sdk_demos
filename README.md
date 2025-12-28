@@ -14,19 +14,19 @@ npm install
 
 ## デモ一覧
 
-| No | ファイル | 内容 | コスト目安 |
-|----|----------|------|------------|
-| 00 | 00_setup.mjs | 基本セットアップ・日本語デモ | $0.03 |
-| 01 | 01_file_operations.mjs | ファイル操作（Glob, Read, Write） | $0.11 |
-| 02 | 02_web_search.mjs | Web検索・フェッチ | $0.23 |
-| 03 | 03_bash_execution.mjs | Bashコマンド実行 | $0.06 |
-| 04 | 04_subagents.mjs | サブエージェント（カスタム定義） | $0.43 |
-| 05 | 05_mcp_server.mjs | MCPサーバー（カスタムツール） | $0.07 |
-| 06 | 06_parallel_tools.mjs | 並列ツール呼び出し | $0.04 |
-| 07 | 07_programmatic_tools.mjs | プログラマティックツール制御 | $0.24 |
-| 08 | 08_native_subagents.mjs | ネイティブサブエージェント | $0.43 |
-| 09 | 09_dev_cycle.mjs | 開発サイクル自動化 | $0.17 |
-| 10 | 10_skills.mjs | Agent Skills（能力拡張） | $0.12 |
+| No | ファイル | 内容 | 解説 | コスト目安 |
+|----|----------|------|------|------------|
+| 00 | 00_setup.mjs | 基本セットアップ・日本語デモ | [00_SETUP.md](00_SETUP.md) | $0.03 |
+| 01 | 01_file_operations.mjs | ファイル操作（Glob, Read, Write） | [01_FILE_OPERATIONS.md](01_FILE_OPERATIONS.md) | $0.11 |
+| 02 | 02_web_search.mjs | Web検索・フェッチ | [02_WEB_SEARCH.md](02_WEB_SEARCH.md) | $0.23 |
+| 03 | 03_bash_execution.mjs | Bashコマンド実行 | [03_BASH_EXECUTION.md](03_BASH_EXECUTION.md) | $0.06 |
+| 04 | 04_subagents.mjs | サブエージェント（カスタム定義） | [04_SUBAGENTS.md](04_SUBAGENTS.md) | $0.43 |
+| 05 | 05_mcp_server.mjs | MCPサーバー（カスタムツール） | [05_MCP_SERVER.md](05_MCP_SERVER.md) | $0.07 |
+| 06 | 06_parallel_tools.mjs | 並列ツール呼び出し | [06_PARALLEL_TOOLS.md](06_PARALLEL_TOOLS.md) | $0.04 |
+| 07 | 07_programmatic_tools.mjs | プログラマティックツール制御 | [07_PROGRAMMATIC_TOOLS.md](07_PROGRAMMATIC_TOOLS.md) | $0.24 |
+| 08 | 08_native_subagents.mjs | ネイティブサブエージェント | [08_NATIVE_SUBAGENTS.md](08_NATIVE_SUBAGENTS.md) | $0.43 |
+| 09 | 09_dev_cycle.mjs | 開発サイクル自動化 | [09_DEV_CYCLE.md](09_DEV_CYCLE.md) | $0.17 |
+| 10 | 10_skills.mjs | Agent Skills（能力拡張） | [10_SKILLS.md](10_SKILLS.md) | $0.12 |
 
 ## 実行方法
 
