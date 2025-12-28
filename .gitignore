@@ -1,0 +1,4 @@
+node_modules/
+demo_project/
+sample.txt
+.DS_Store
