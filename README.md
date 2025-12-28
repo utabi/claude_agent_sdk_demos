@@ -55,7 +55,24 @@ node 09_dev_cycle.mjs --task "FizzBuzz関数を実装して"
 ### 実践的なワークフロー
 - **09**: 開発サイクル自動化（実装→ビルド→テスト→修正）
 
-## 環境変数
+## 認証
+
+### 方法1: Claude Code CLI（推奨）
+
+Claude Code CLIで認証済みの場合、API KEYなしで利用可能。
+
+```bash
+# Claude Code CLIをインストール
+npm install -g @anthropic-ai/claude-code
+
+# 認証（ブラウザが開く）
+claude login
+
+# これでSDKも認証情報を自動的に使用する
+node 00_setup.mjs
+```
+
+### 方法2: API KEY
 
 ```bash
 export ANTHROPIC_API_KEY=your-api-key
