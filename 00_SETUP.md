@@ -23,6 +23,63 @@ npm install @anthropic-ai/claude-agent-sdk
 
 `.mjs` を使うことで、`package.json` に `"type": "module"` を追加せずに ES Modules の `import` 構文が使える。
 
+## query() のオプション解説
+
+```javascript
+const result = query({
+  prompt: "タスクの指示",
+  options: {
+    cwd: __dirname,                    // 作業ディレクトリ
+    systemPrompt: "役割の設定",         // Claudeの振る舞い
+    settingSources: ["project"],        // スキル読み込み元
+    allowedTools: ["Read", "Write"],    // 使用可能ツール
+    permissionMode: "bypassPermissions",
+    allowDangerouslySkipPermissions: true,
+  },
+});
+```
+
+### prompt vs systemPrompt
+
+| 項目 | prompt | systemPrompt |
+|------|--------|--------------|
+| 役割 | 具体的な指示・質問 | 振る舞い・役割の設定 |
+| 優先度 | 高（直接的なタスク） | 低（背景的な指針） |
+| 用途 | 「何をするか」 | 「どのように振る舞うか」 |
+
+スキル使用を確実にしたい場合は **prompt** に明示的に書く。
+
+### allowedTools 一覧
+
+| ツール名 | 用途 | デモ |
+|----------|------|------|
+| `Read` | ファイル読み込み | 01 |
+| `Write` | ファイル書き込み | 01 |
+| `Edit` | ファイル編集 | 01 |
+| `Glob` | ファイル検索（パターン） | 01 |
+| `Grep` | ファイル内検索 | 01 |
+| `Bash` | シェルコマンド実行 | 03 |
+| `WebSearch` | Web検索 | 02 |
+| `WebFetch` | Webページ取得 | 02 |
+| `Task` | サブエージェント起動 | 04, 08 |
+| `Skill` | スキル実行 | 10 |
+| `TodoWrite` | タスク管理 | - |
+| `NotebookEdit` | Jupyter編集 | - |
+
+### settingSources 一覧
+
+| 値 | 読み込み対象 |
+|----|-------------|
+| `"project"` | `.claude/skills/` （プロジェクト） |
+| `"user"` | `~/.claude/skills/` （ユーザー） |
+
+### permissionMode 一覧
+
+| 値 | 説明 |
+|----|------|
+| `"default"` | 通常（権限確認あり） |
+| `"bypassPermissions"` | 権限確認をスキップ（要 `allowDangerouslySkipPermissions: true`） |
+
 ## デモ一覧
 
 以下の記事を参考に、Claude Agent SDKで実現できることを順番に試していく。
