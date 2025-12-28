@@ -62,8 +62,8 @@ node 09_dev_cycle.mjs --task "FizzBuzz関数を実装して"
 Claude Code CLIで認証済みの場合、API KEYなしで利用可能。
 
 ```bash
-# Claude Code CLIをインストール
-npm install -g @anthropic-ai/claude-code
+# Claude Code をインストール（npxで直接実行も可）
+npx @anthropic-ai/claude-code
 
 # 認証（ブラウザが開く）
 claude login
