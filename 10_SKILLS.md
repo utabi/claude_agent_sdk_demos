@@ -231,6 +231,44 @@ Agent SDKには以下のビルトインスキルが含まれている：
 | スキル使用（データ分析） | $0.09 |
 | **合計** | **$0.12** |
 
+## 追加デモ
+
+人気スキルを試すための追加デモスクリプト。
+
+### 10_skills_frontend-design.mjs
+
+**frontend-design** スキルを使ってランディングページを生成。
+
+```bash
+node 10_skills_frontend-design.mjs
+# 出力: workspace/landing_page.html
+
+# ブラウザで確認
+open workspace/landing_page.html
+```
+
+このスキルは以下を重視したUIを生成:
+- 独自性のあるタイポグラフィ
+- 大胆な美的方向性
+- アニメーション・モーション
+- 汎用AIデザインの回避
+
+### 10_skills_prompt-engineering-patterns.mjs
+
+**prompt-engineering-patterns** スキルを使ってプロンプトを最適化。
+
+```bash
+node 10_skills_prompt-engineering-patterns.mjs
+# 入力: workspace/original_prompt.txt
+# 出力: workspace/optimized_prompt.md
+```
+
+このスキルは以下の技法を適用:
+- Few-Shot学習（サンプル追加）
+- Chain-of-Thought（段階的推論）
+- システムプロンプト設計
+- RAGシステム連携パターン
+
 ## 参考
 
 - [Agent Skills 概要](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)

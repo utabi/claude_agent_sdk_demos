@@ -2,6 +2,10 @@
 
 Claude Agent SDK の機能を試すデモ集。
 
+## 前提条件
+
+- Node.js v18 以上
+
 ## セットアップ
 
 ```bash
