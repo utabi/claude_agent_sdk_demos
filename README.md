@@ -84,6 +84,8 @@ export ANTHROPIC_API_KEY=your-api-key
 
 - [Claude Agent SDK ドキュメント](https://platform.claude.com/docs/en/agent-sdk/overview)
 - [マイグレーションガイド](https://platform.claude.com/docs/en/agent-sdk/migration-guide)
+- [Agent Skills 概要](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)
+- [Claude Plugins (Skills集)](https://claude-plugins.dev/skills/)
 - [参考記事](https://qiita.com/akira_papa_AI/items/f6b342f7d67e097287eb)
 
 ## License

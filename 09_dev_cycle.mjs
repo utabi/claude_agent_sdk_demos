@@ -1,4 +1,7 @@
 import { query } from "@anthropic-ai/claude-agent-sdk";
+import { mkdirSync, existsSync } from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
 
 /**
  * 09: 開発サイクル自動化デモ
@@ -11,11 +14,18 @@ import { query } from "@anthropic-ai/claude-agent-sdk";
  *   node 09_dev_cycle.mjs --cwd /path/to/project --task "..."
  */
 
+// スクリプト自身の場所を取得
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// デフォルト作業ディレクトリ: スクリプトの隣に workspace/ を作成
+const defaultWorkspaceDir = path.join(__dirname, "workspace");
+
 // コマンドライン引数をパース
 function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
-    cwd: process.cwd(),
+    cwd: null, // 指定がなければ defaultWorkspaceDir を使用
     task: null,
   };
 
@@ -32,6 +42,14 @@ function parseArgs() {
 
 async function main() {
   const options = parseArgs();
+
+  // cwdが指定されていなければデフォルトのworkspaceを使用
+  const workDir = options.cwd || defaultWorkspaceDir;
+
+  // 作業ディレクトリを作成
+  if (!existsSync(workDir)) {
+    mkdirSync(workDir, { recursive: true });
+  }
 
   console.log("=== 09: 開発サイクル自動化デモ ===\n");
 
@@ -60,14 +78,14 @@ async function main() {
 
   const task = options.task || defaultTask;
 
-  console.log(`作業ディレクトリ: ${options.cwd}`);
+  console.log(`作業ディレクトリ: ${workDir}`);
   console.log(`タスク: ${task.slice(0, 100)}...`);
   console.log("\n--- 実行開始 ---\n");
 
   const result = query({
     prompt: task,
     options: {
-      cwd: options.cwd,
+      cwd: workDir,
       systemPrompt: `あなたは経験豊富なソフトウェアエンジニアです。
 
 以下のワークフローで開発を進めてください:

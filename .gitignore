@@ -1,4 +1,5 @@
 node_modules/
 demo_project/
+workspace/
 sample.txt
 .DS_Store

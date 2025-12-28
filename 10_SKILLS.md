@@ -5,6 +5,33 @@
 Agent Skills は、Claudeの能力を「特定のタスクに特化して拡張」する仕組み。
 サブエージェント（別の専門家に委任）とは異なり、スキルは「自分自身の能力を拡張する」アプローチ。
 
+## Claude Plugins（コミュニティスキル集）
+
+[claude-plugins.dev](https://claude-plugins.dev/skills/) は、Agent Skills のコミュニティマーケットプレイス。
+約46,000以上のスキルが公開されており、検索・インストールして利用できる。
+
+GitHub上の公開スキルが自動的にインデックス化され、すぐに利用可能。
+
+### 人気のスキル
+
+| スキル | 作者 | 説明 |
+|--------|------|------|
+| **frontend-design** | @anthropics | 高品質なフロントエンドUIを作成 |
+| **prompt-engineering-patterns** | @wshobson | LLMパフォーマンス最適化のプロンプト技法 |
+| **brainstorming** | @obra | 創造的作業前のアイデア探索・要件整理 |
+| **skill-writer** | @pytorch | Agent Skills自体を作成するガイド |
+| **systematic-debugging** | @obra | バグ修正前の体系的デバッグ手法 |
+
+### スキルのインストール
+
+```bash
+# Claude Code CLI でインストール
+claude plugins install @anthropics/frontend-design
+
+# または手動でダウンロードして配置
+~/.claude/skills/frontend-design/SKILL.md
+```
+
 ## サブエージェントとの違い
 
 | 項目 | サブエージェント (04, 08) | スキル (10) |
@@ -206,6 +233,8 @@ Agent SDKには以下のビルトインスキルが含まれている：
 
 ## 参考
 
-- [Agent Skills ドキュメント](https://platform.claude.com/docs/en/agent-sdk/skills)
+- [Agent Skills 概要](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)
+- [Agent Skills ドキュメント (SDK)](https://platform.claude.com/docs/en/agent-sdk/skills)
 - [Agent Skills Best Practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)
+- [Claude Plugins (Skills集)](https://claude-plugins.dev/skills/)
 - [Skills Cookbook](https://github.com/anthropics/claude-cookbooks/tree/main/skills)
