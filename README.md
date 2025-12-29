@@ -28,7 +28,19 @@ npm install
 | 09 | 09_dev_cycle.mjs | 開発サイクル自動化 | [09_DEV_CYCLE.md](09_DEV_CYCLE.md) | $0.17 |
 | 10 | 10_skills.mjs | Agent Skills（能力拡張） | [10_SKILLS.md](10_SKILLS.md) | $0.12 |
 
-## 実行方法
+## コード生成ツール
+
+[generator.html](generator.html) をブラウザで開くと、WebUIでSDK設定を選択して.mjsファイルを生成できます。
+
+- プロンプト、システムプロンプト
+- Permission Mode（確認スキップ/確認あり）
+- ツール許可設定
+- サブエージェント定義
+- 対話モード（AskUserQuestion対応）
+
+設定はlocalStorageに自動保存されます。
+
+## デモの実行方法
 
 ```bash
 # 基本デモ

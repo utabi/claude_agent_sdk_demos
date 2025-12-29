@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Agent SDK Generator</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    h1 {
+      grid-column: 1 / -1;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1.75rem;
+    }
+
+    h1 span {
+      color: var(--primary);
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .panel h2 {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text-muted);
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.875rem;
+      font-family: inherit;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    textarea#prompt {
+      min-height: 240px;
+    }
+
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--bg);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .checkbox-item:hover {
+      background: #2d3a4f;
+    }
+
+    .checkbox-item input {
+      accent-color: var(--primary);
+    }
+
+    .checkbox-item span {
+      font-size: 0.8rem;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--border);
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--success);
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+
+    .toggle-switch input:disabled + .toggle-slider {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Tool Grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .tool-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg);
+      border-radius: 8px;
+      transition: opacity 0.2s;
+    }
+
+    .tool-item.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .tool-item .tool-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* All Allow Toggle */
+    .all-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%);
+      border-radius: 8px;
+      border: 1px solid var(--primary);
+    }
+
+    .all-toggle span {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .radio-item input {
+      accent-color: var(--primary);
+    }
+
+    .subagent-entry {
+      background: var(--bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+    }
+
+    .subagent-entry .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subagent-entry input,
+    .subagent-entry select {
+      padding: 0.5rem;
+    }
+
+    .subagent-entry textarea {
+      min-height: 60px;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #475569;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-add {
+      margin-top: 0.5rem;
+    }
+
+    .btn-generate {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    .output-panel {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .output-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    #output {
+      background: #0d1117;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      max-height: calc(100vh - 200px);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .hljs-keyword { color: #ff7b72; }
+    .hljs-string { color: #a5d6ff; }
+    .hljs-comment { color: #8b949e; }
+    .hljs-number { color: #79c0ff; }
+    .hljs-property { color: #d2a8ff; }
+    .hljs-function { color: #ffa657; }
+
+    .section-title {
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin: 1.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title::before {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .copied {
+      animation: flash 0.3s;
+    }
+
+    @keyframes flash {
+      0% { background: var(--success); }
+      100% { background: var(--primary); }
+    }
+
+    .tooltip {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Claude Agent SDK <span>Generator</span></h1>
+
+    <div class="panel form-panel">
+      <h2>設定</h2>
+
+      <!-- 基本設定 -->
+      <div class="form-group">
+        <label for="filename">ファイル名</label>
+        <input type="text" id="filename" value="my_agent.mjs" placeholder="my_agent.mjs">
+      </div>
+
+      <div class="form-group">
+        <label for="prompt">プロンプト（タスクの指示）</label>
+        <textarea id="prompt" placeholder="Claudeに実行させたいタスクを記述...">こんにちは！簡単に自己紹介してください。</textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="systemPrompt">システムプロンプト（役割設定）</label>
+        <textarea id="systemPrompt" placeholder="Claudeの振る舞いや役割を定義...">あなたは親切なアシスタントです。簡潔に日本語で回答してください。
+ファイルやディレクトリを作成する場合は、必ずカレントディレクトリ(./)に相対パスで作成してください。絶対パスや ~/my-work/ などは使用しないでください。</textarea>
+      </div>
+
+      <!-- 権限設定 -->
+      <div class="section-title">権限設定</div>
+
+      <div class="form-group">
+        <label>Permission Mode</label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="permissionMode" value="bypassPermissions" checked>
+            <span>bypassPermissions（確認スキップ）</span>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="permissionMode" value="default">
+            <span>default（確認あり）</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ツール設定 -->
+      <div class="section-title">ツール設定</div>
+
+      <div class="form-group">
+        <div class="all-toggle">
+          <label class="toggle-switch">
+            <input type="checkbox" id="allowAllTools" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span>すべて許可</span>
+        </div>
+        <p class="tooltip">ONの場合 allowedTools を指定せず全ツール使用可能。OFFにすると個別に許可/禁止を設定。</p>
+
+        <div class="tool-grid" id="toolGrid">
+          <!-- 動的に生成 -->
+        </div>
+      </div>
+
+      <!-- スキル設定 -->
+      <div class="section-title">スキル設定</div>
+
+      <div class="form-group">
+        <label>settingSources（スキル読み込み元）</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item"><input type="checkbox" id="settingProject" value="project"><span>project</span></label>
+          <label class="checkbox-item"><input type="checkbox" id="settingUser" value="user" checked><span>user</span></label>
+        </div>
+        <p class="tooltip">project: プロジェクト内 .claude/skills/ からスキルを読み込む<br>user: ユーザーホーム ~/.claude/skills/ からスキルを読み込む</p>
+      </div>
+
+      <!-- サブエージェント設定 -->
+      <div class="section-title">サブエージェント（カスタム）</div>
+
+      <div id="subagentsList"></div>
+      <button class="btn btn-secondary btn-add" onclick="addSubagent()">+ サブエージェントを追加</button>
+
+      <!-- 詳細設定 -->
+      <div class="section-title">詳細設定</div>
+
+      <div class="form-group">
+        <div class="all-toggle">
+          <label class="toggle-switch">
+            <input type="checkbox" id="interactiveMode" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span>対話モード</span>
+        </div>
+        <p class="tooltip">ONにすると、AskUserQuestionツールでCLIから質問に回答できます</p>
+      </div>
+
+      <div class="form-group">
+        <label for="maxTurns">maxTurns（最大ターン数）</label>
+        <input type="text" id="maxTurns" placeholder="30">
+        <p class="tooltip">無限ループ防止用。未入力でデフォルト</p>
+      </div>
+
+      <div class="form-group">
+        <label for="cwd">作業ディレクトリ（cwd）</label>
+        <input type="text" id="cwd" value="path.join(__dirname, 'workspace')" placeholder="__dirname（デフォルト）">
+        <p class="tooltip">スクリプトのあるディレクトリからの相対パス。workspace/ でファイル操作を隔離</p>
+      </div>
+
+      <div class="form-group">
+        <label for="executable">Node実行パス（executable）</label>
+        <input type="text" id="executable" placeholder="node（デフォルト）">
+        <p class="tooltip">nvm等を使用時に node が見つからない場合、フルパスを指定（例: /Users/xxx/.nvm/versions/node/v20.10.0/bin/node）</p>
+      </div>
+
+      <button class="btn btn-primary btn-generate" onclick="download()">ダウンロード (.mjs)</button>
+    </div>
+
+    <div class="panel output-panel">
+      <div class="output-header">
+        <h2>プレビュー</h2>
+        <button class="btn btn-secondary" onclick="copyToClipboard()">コピー</button>
+      </div>
+      <pre id="output"></pre>
+    </div>
+  </div>
+
+  <script>
+    const TOOLS = [
+      { id: 'Read', name: 'Read', desc: 'ファイル読込' },
+      { id: 'Write', name: 'Write', desc: 'ファイル書込' },
+      { id: 'Edit', name: 'Edit', desc: 'ファイル編集' },
+      { id: 'Glob', name: 'Glob', desc: 'パターン検索' },
+      { id: 'Grep', name: 'Grep', desc: '内容検索' },
+      { id: 'Bash', name: 'Bash', desc: 'シェル実行' },
+      { id: 'WebSearch', name: 'WebSearch', desc: 'Web検索' },
+      { id: 'WebFetch', name: 'WebFetch', desc: 'Web取得' },
+      { id: 'Task', name: 'Task', desc: 'サブエージェント' },
+      { id: 'Skill', name: 'Skill', desc: 'スキル実行' },
+      { id: 'TodoWrite', name: 'TodoWrite', desc: 'タスク管理' },
+      { id: 'NotebookEdit', name: 'NotebookEdit', desc: 'Jupyter編集' },
+    ];
+
+    function initToolGrid() {
+      const grid = document.getElementById('toolGrid');
+      grid.innerHTML = TOOLS.map(tool => `
+        <div class="tool-item" data-tool="${tool.id}">
+          <span class="tool-name">${tool.name}</span>
+          <label class="toggle-switch">
+            <input type="checkbox" data-tool-toggle="${tool.id}" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      `).join('');
+
+      // イベントリスナー追加
+      grid.querySelectorAll('input[data-tool-toggle]').forEach(input => {
+        input.addEventListener('change', generate);
+      });
+
+      updateToolGridState();
+    }
+
+    function updateToolGridState() {
+      const allowAll = document.getElementById('allowAllTools').checked;
+      const items = document.querySelectorAll('.tool-item');
+
+      items.forEach(item => {
+        if (allowAll) {
+          item.classList.add('disabled');
+          item.querySelector('input').checked = true;
+        } else {
+          item.classList.remove('disabled');
+        }
+      });
+    }
+
+    // localStorage操作
+    const STORAGE_KEY = 'casui_settings';
+
+    // 設定を保存
+    function saveSettings() {
+      const settings = {
+        filename: document.getElementById('filename').value,
+        prompt: document.getElementById('prompt').value,
+        systemPrompt: document.getElementById('systemPrompt').value,
+        permissionMode: document.querySelector('input[name="permissionMode"]:checked')?.value,
+        allowAllTools: document.getElementById('allowAllTools').checked,
+        toolToggles: {},
+        settingProject: document.getElementById('settingProject').checked,
+        settingUser: document.getElementById('settingUser').checked,
+        interactiveMode: document.getElementById('interactiveMode').checked,
+        maxTurns: document.getElementById('maxTurns').value,
+        cwd: document.getElementById('cwd').value,
+        executable: document.getElementById('executable').value,
+        subagents: getSubagents()
+      };
+
+      // ツールトグルの状態を保存
+      document.querySelectorAll('input[data-tool-toggle]').forEach(input => {
+        settings.toolToggles[input.dataset.toolToggle] = input.checked;
+      });
+
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+      } catch (e) {
+        console.warn('設定の保存に失敗:', e);
+      }
+    }
+
+    // 設定を復元
+    function loadSettings() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+
+      try {
+        const settings = JSON.parse(saved);
+
+        if (settings.filename) document.getElementById('filename').value = settings.filename;
+        if (settings.prompt) document.getElementById('prompt').value = settings.prompt;
+        if (settings.systemPrompt) document.getElementById('systemPrompt').value = settings.systemPrompt;
+
+        if (settings.permissionMode) {
+          const radio = document.querySelector(`input[name="permissionMode"][value="${settings.permissionMode}"]`);
+          if (radio) radio.checked = true;
+        }
+
+        if (typeof settings.allowAllTools === 'boolean') {
+          document.getElementById('allowAllTools').checked = settings.allowAllTools;
+        }
+
+        if (typeof settings.settingProject === 'boolean') {
+          document.getElementById('settingProject').checked = settings.settingProject;
+        }
+        if (typeof settings.settingUser === 'boolean') {
+          document.getElementById('settingUser').checked = settings.settingUser;
+        }
+
+        if (typeof settings.interactiveMode === 'boolean') {
+          document.getElementById('interactiveMode').checked = settings.interactiveMode;
+        }
+
+        if (settings.maxTurns) document.getElementById('maxTurns').value = settings.maxTurns;
+        if (settings.cwd) document.getElementById('cwd').value = settings.cwd;
+        if (settings.executable) document.getElementById('executable').value = settings.executable;
+
+        // ツールトグルを復元
+        if (settings.toolToggles) {
+          setTimeout(() => {
+            for (const [toolId, checked] of Object.entries(settings.toolToggles)) {
+              const input = document.querySelector(`input[data-tool-toggle="${toolId}"]`);
+              if (input) input.checked = checked;
+            }
+            updateToolGridState();
+          }, 0);
+        }
+
+        // サブエージェントを復元
+        if (settings.subagents && Object.keys(settings.subagents).length > 0) {
+          for (const [id, config] of Object.entries(settings.subagents)) {
+            addSubagent();
+            const entry = document.querySelector('.subagent-entry:last-child');
+            if (entry) {
+              entry.querySelector('[data-field="id"]').value = id;
+              entry.querySelector('[data-field="description"]').value = config.description || '';
+              entry.querySelector('[data-field="prompt"]').value = config.prompt || '';
+              entry.querySelector('[data-field="model"]').value = config.model || 'haiku';
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('設定の復元に失敗:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initToolGrid();
+      loadSettings();
+
+      document.getElementById('allowAllTools').addEventListener('change', () => {
+        updateToolGridState();
+        generate();
+        saveSettings();
+      });
+
+      // 入力変更時に自動生成＆保存
+      document.querySelectorAll('input, textarea, select').forEach(el => {
+        el.addEventListener('input', () => { generate(); saveSettings(); });
+        el.addEventListener('change', () => { generate(); saveSettings(); });
+      });
+
+      // 初期生成
+      updateToolGridState();
+      generate();
+    });
+
+    let subagentId = 0;
+
+    function addSubagent() {
+      const id = subagentId++;
+      const container = document.getElementById('subagentsList');
+      const entry = document.createElement('div');
+      entry.className = 'subagent-entry';
+      entry.id = `subagent-${id}`;
+      entry.innerHTML = `
+        <div class="form-row">
+          <input type="text" placeholder="ID (例: code-reviewer)" data-field="id">
+          <select data-field="model">
+            <option value="haiku">haiku（高速・低コスト）</option>
+            <option value="sonnet">sonnet（バランス）</option>
+            <option value="opus">opus（高性能）</option>
+          </select>
+          <button class="btn btn-danger" onclick="removeSubagent(${id})">×</button>
+        </div>
+        <input type="text" placeholder="description (説明)" data-field="description" style="width:100%;margin-bottom:0.5rem;padding:0.5rem;">
+        <textarea placeholder="prompt (指示)" data-field="prompt"></textarea>
+      `;
+      container.appendChild(entry);
+      generate();
+    }
+
+    function removeSubagent(id) {
+      document.getElementById(`subagent-${id}`)?.remove();
+      generate();
+    }
+
+    function getSubagents() {
+      const entries = document.querySelectorAll('.subagent-entry');
+      const agents = {};
+      entries.forEach(entry => {
+        const id = entry.querySelector('[data-field="id"]').value.trim();
+        if (!id) return;
+        agents[id] = {
+          description: entry.querySelector('[data-field="description"]').value.trim(),
+          prompt: entry.querySelector('[data-field="prompt"]').value.trim(),
+          model: entry.querySelector('[data-field="model"]').value,
+        };
+      });
+      return agents;
+    }
+
+    function getToolSettings() {
+      const allowAll = document.getElementById('allowAllTools').checked;
+      if (allowAll) {
+        return { allowedTools: [], disallowedTools: [] };
+      }
+
+      const allowedTools = [];
+      const disallowedTools = [];
+
+      document.querySelectorAll('input[data-tool-toggle]').forEach(input => {
+        const toolId = input.dataset.toolToggle;
+        if (input.checked) {
+          allowedTools.push(toolId);
+        } else {
+          disallowedTools.push(toolId);
+        }
+      });
+
+      return { allowedTools, disallowedTools };
+    }
+
+    function getSettingSources() {
+      const sources = [];
+      if (document.getElementById('settingProject').checked) sources.push('project');
+      if (document.getElementById('settingUser').checked) sources.push('user');
+      return sources;
+    }
+
+    function escapeForTemplate(str) {
+      return str.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\$/g, '\\$');
+    }
+
+    function generate() {
+      const filename = document.getElementById('filename').value || 'my_agent.mjs';
+      const prompt = document.getElementById('prompt').value;
+      const systemPrompt = document.getElementById('systemPrompt').value;
+      const permissionMode = document.querySelector('input[name="permissionMode"]:checked').value;
+      const { allowedTools, disallowedTools } = getToolSettings();
+      const settingSources = getSettingSources();
+      const agents = getSubagents();
+      const maxTurns = document.getElementById('maxTurns').value;
+      const cwd = document.getElementById('cwd').value;
+      const executable = document.getElementById('executable').value;
+      const interactiveMode = document.getElementById('interactiveMode').checked;
+
+      let options = [];
+
+      // cwdがpath.join等の式の場合はそのまま、文字列の場合はクォート
+      if (cwd) {
+        if (cwd.includes('path.') || cwd.includes('__dirname')) {
+          options.push(`      cwd: ${cwd},`);
+        } else {
+          options.push(`      cwd: "${cwd}",`);
+        }
+      }
+
+      if (systemPrompt) {
+        options.push(`      systemPrompt: \`${escapeForTemplate(systemPrompt)}\`,`);
+      }
+
+      if (permissionMode === 'bypassPermissions') {
+        options.push(`      permissionMode: "bypassPermissions",`);
+        options.push(`      allowDangerouslySkipPermissions: true,`);
+      } else {
+        options.push(`      permissionMode: "default",`);
+      }
+
+      // すべて許可でない場合、許可ツールをホワイトリストとして出力
+      if (allowedTools.length > 0 && allowedTools.length < TOOLS.length) {
+        options.push(`      allowedTools: [${allowedTools.map(t => `"${t}"`).join(', ')}],`);
+      }
+
+      if (settingSources.length > 0) {
+        options.push(`      settingSources: [${settingSources.map(s => `"${s}"`).join(', ')}],`);
+      }
+
+      if (Object.keys(agents).length > 0) {
+        let agentsStr = '      agents: {\n';
+        for (const [id, config] of Object.entries(agents)) {
+          agentsStr += `        "${id}": {\n`;
+          agentsStr += `          description: "${config.description}",\n`;
+          agentsStr += `          prompt: \`${escapeForTemplate(config.prompt)}\`,\n`;
+          agentsStr += `          model: "${config.model}",\n`;
+          agentsStr += `        },\n`;
+        }
+        agentsStr += '      },';
+        options.push(agentsStr);
+      }
+
+      if (maxTurns) {
+        options.push(`      maxTurns: ${maxTurns},`);
+      }
+
+      if (executable) {
+        options.push(`      executable: "${executable}",`);
+      }
+
+      // 対話モード用のcanUseTool
+      if (interactiveMode) {
+        options.push(`      canUseTool: handleAskUserQuestion,`);
+      }
+
+      // path/fileURLToPathが必要かどうか
+      const needsPath = cwd && (cwd.includes('path.') || cwd.includes('__dirname'));
+
+      let imports = `import { query } from "@anthropic-ai/claude-agent-sdk";`;
+      if (interactiveMode) {
+        imports += `
+import readline from "readline";`;
+      }
+      if (needsPath) {
+        imports += `
+import { fileURLToPath } from "url";
+import path from "path";
+import { mkdirSync, existsSync } from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);`;
+      }
+
+      // cwdディレクトリ自動作成コード
+      let mkdirCode = '';
+      if (needsPath) {
+        mkdirCode = `
+  // 作業ディレクトリがなければ作成
+  const workDir = ${cwd};
+  if (!existsSync(workDir)) {
+    mkdirSync(workDir, { recursive: true });
+    console.log("作業ディレクトリを作成:", workDir);
+  }
+`;
+      }
+
+      // 対話モード用のヘルパー関数
+      let interactiveHelper = '';
+      if (interactiveMode) {
+        interactiveHelper = `
+// ユーザー入力を取得するヘルパー
+function askQuestion(rl, question) {
+  return new Promise(resolve => rl.question(question, resolve));
+}
+
+// AskUserQuestionツールを処理するコールバック
+async function handleAskUserQuestion(toolName, input) {
+  if (toolName === "AskUserQuestion") {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    const answers = {};
+
+    for (const q of input.questions) {
+      console.log(\`\\n\${q.header}: \${q.question}\`);
+      q.options.forEach((opt, i) => {
+        console.log(\`  \${i + 1}. \${opt.label} - \${opt.description}\`);
+      });
+      console.log(\`  \${q.options.length + 1}. その他（自由入力）\`);
+
+      const answer = await askQuestion(rl, "選択 (番号): ");
+      const idx = parseInt(answer) - 1;
+
+      if (idx >= 0 && idx < q.options.length) {
+        answers[q.question] = q.options[idx].label;
+      } else {
+        const custom = await askQuestion(rl, "入力: ");
+        answers[q.question] = custom;
+      }
+    }
+
+    rl.close();
+    return {
+      behavior: "allow",
+      updatedInput: { ...input, answers }
+    };
+  }
+
+  return { behavior: "allow", updatedInput: input };
+}
+`;
+      }
+
+      const code = `${imports}${interactiveHelper}
+
+async function main() {
+  console.log("Agent 開始...\\n");
+${mkdirCode}
+
+  const result = query({
+    prompt: \`${escapeForTemplate(prompt)}\`,
+    options: {
+${options.join('\n')}
+    },
+  });
+
+  for await (const message of result) {
+    if (message.type === "assistant") {
+      for (const block of message.message.content) {
+        if (block.type === "text") {
+          console.log(block.text);
+        } else if (block.type === "tool_use") {
+          console.log(\`[ツール: \${block.name}]\`);
+        }
+      }
+    } else if (message.type === "result") {
+      console.log("\\n--- 結果 ---");
+      console.log("成功:", message.subtype === "success");
+      console.log("ターン数:", message.num_turns);
+      console.log("コスト (USD):", message.total_cost_usd?.toFixed(4));
+      console.log("使用トークン:", message.usage);
+    }
+  }
+}
+
+main().catch(console.error);
+`;
+
+      document.getElementById('output').innerHTML = highlightJS(code);
+      // 生のコードを保持（ダウンロード・コピー用）
+      document.getElementById('output').dataset.rawCode = code;
+    }
+
+    function highlightJS(code) {
+      // 1. HTMLエスケープ
+      let result = code
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // 2. 行ごとに処理してハイライト
+      result = result.split('\n').map(line => {
+        // コメント行（行頭からの//）
+        if (/^\s*\/\//.test(line)) {
+          return `<span class="hljs-comment">${line}</span>`;
+        }
+        // キーワード
+        line = line.replace(/\b(import|export|from|async|await|function|const|let|var|for|if|else|return|true|false|null)\b/g,
+          '<span class="hljs-keyword">$1</span>');
+        // 文字列（シングルクォート、ダブルクォート）- バッククォートは除外
+        line = line.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g,
+          '<span class="hljs-string">$1</span>');
+        // 数字
+        line = line.replace(/\b(\d+)\b/g, '<span class="hljs-number">$1</span>');
+        return line;
+      }).join('\n');
+
+      return result;
+    }
+
+    function copyToClipboard() {
+      const code = document.getElementById('output').dataset.rawCode;
+      navigator.clipboard.writeText(code);
+      const btn = document.querySelector('.output-actions .btn-secondary');
+      btn.textContent = 'コピー済み!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'コピー';
+        btn.classList.remove('copied');
+      }, 1500);
+    }
+
+    function download() {
+      const code = document.getElementById('output').dataset.rawCode;
+      const filename = document.getElementById('filename').value || 'my_agent.mjs';
+      const blob = new Blob([code], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+  </script>
+</body>
+</html>
