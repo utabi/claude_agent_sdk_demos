@@ -6,15 +6,15 @@
   <title>Claude Agent SDK Generator</title>
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --bg: #0f172a;
-      --card: #1e293b;
-      --border: #334155;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --success: #22c55e;
-      --danger: #ef4444;
+      --primary: #780000;
+      --primary-hover: #C1121F;
+      --bg: #003049;
+      --card: #004466;
+      --border: #669BBC;
+      --text: #FDF0D5;
+      --text-muted: #669BBC;
+      --success: #669BBC;
+      --danger: #C1121F;
     }
 
     * {
@@ -60,14 +60,12 @@
       background: var(--card);
       border-radius: 12px;
       padding: 1.5rem;
-      border: 1px solid var(--border);
     }
 
     .panel h2 {
       font-size: 1.1rem;
       margin-bottom: 1.5rem;
       padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
     }
 
     .form-group {
@@ -88,7 +86,7 @@
       width: 100%;
       padding: 0.75rem;
       background: var(--bg);
-      border: 1px solid var(--border);
+      border: none;
       border-radius: 8px;
       color: var(--text);
       font-size: 0.875rem;
@@ -99,7 +97,6 @@
     textarea:focus,
     select:focus {
       outline: none;
-      border-color: var(--primary);
     }
 
     textarea {
@@ -129,7 +126,7 @@
     }
 
     .checkbox-item:hover {
-      background: #2d3a4f;
+      background: #005577;
     }
 
     .checkbox-item input {
@@ -225,14 +222,13 @@
       align-items: center;
       gap: 0.75rem;
       padding: 0.75rem 1rem;
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 100%);
+      background: linear-gradient(135deg, #004466 0%, #003049 100%);
       border-radius: 8px;
-      border: 1px solid var(--primary);
     }
 
     .all-toggle span {
       font-weight: 600;
-      color: var(--primary);
+      color: #FDF0D5;
     }
 
     .radio-group {
@@ -289,21 +285,21 @@
     }
 
     .btn-primary {
-      background: var(--primary);
-      color: white;
+      background: #FDF0D5;
+      color: #003049;
     }
 
     .btn-primary:hover {
-      background: var(--primary-hover);
+      background: #e8dcc2;
     }
 
     .btn-secondary {
-      background: var(--border);
-      color: var(--text);
+      background: #669BBC;
+      color: #003049;
     }
 
     .btn-secondary:hover {
-      background: #475569;
+      background: #7aadd0;
     }
 
     .btn-danger {
@@ -324,8 +320,9 @@
     }
 
     .output-panel {
-      position: sticky;
-      top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
     }
 
     .output-header {
@@ -341,28 +338,28 @@
     }
 
     #output {
-      background: #0d1117;
+      background: #002233;
       border-radius: 8px;
       padding: 1rem;
       font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
       font-size: 0.8rem;
       line-height: 1.6;
-      overflow-x: auto;
-      max-height: calc(100vh - 200px);
+      overflow: auto;
+      max-height: 1200px;
       white-space: pre-wrap;
       word-break: break-all;
     }
 
-    .hljs-keyword { color: #ff7b72; }
-    .hljs-string { color: #a5d6ff; }
-    .hljs-comment { color: #8b949e; }
-    .hljs-number { color: #79c0ff; }
+    .hljs-keyword { color: #C1121F; }
+    .hljs-string { color: #FDF0D5; }
+    .hljs-comment { color: #669BBC; }
+    .hljs-number { color: #669BBC; }
     .hljs-property { color: #d2a8ff; }
     .hljs-function { color: #ffa657; }
 
     .section-title {
       font-size: 0.9rem;
-      color: var(--primary);
+      color: #FDF0D5;
       margin: 1.5rem 0 1rem;
       display: flex;
       align-items: center;
@@ -373,14 +370,14 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--border);
+      background: transparent;
     }
 
     .section-title::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: var(--border);
+      background: transparent;
     }
 
     .copied {
@@ -396,6 +393,47 @@
       font-size: 0.75rem;
       color: var(--text-muted);
       margin-top: 0.25rem;
+    }
+
+    .next-steps {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #004466 0%, #003049 100%);
+      border-radius: 10px;
+    }
+
+    .next-steps h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .next-steps ol {
+      margin: 0 0 0.75rem 1.25rem;
+      padding: 0;
+    }
+
+    .next-steps li {
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    .next-steps code {
+      background: var(--bg);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.8rem;
+      color: #FDF0D5;
+    }
+
+    .next-steps .note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -414,13 +452,42 @@
 
       <div class="form-group">
         <label for="prompt">プロンプト（タスクの指示）</label>
-        <textarea id="prompt" placeholder="Claudeに実行させたいタスクを記述...">こんにちは！簡単に自己紹介してください。</textarea>
+        <textarea id="prompt" placeholder="Claudeに実行させたいタスクを記述...">公開APIを使ったデータダッシュボードWebアプリを作成してください。
+
+【ステップ1: API調査】
+まずWebSearchツールを使って、以下の条件を満たす面白い公開APIを3つ探してください：
+- 認証不要（APIキー不要）
+- CORS対応（ブラウザから直接呼び出せる）
+- 無料で使える
+- データが視覚的に表示しやすい
+
+見つけたAPIについて、それぞれ簡単に説明してください。
+
+【ステップ2: 実装】
+選んだ3つのAPIを使って、以下の構成でダッシュボードを作成：
+- index.html（メインページ）
+- css/style.css（スタイルシート）
+- js/app.js（メインロジック・API呼び出し）
+
+機能要件:
+1. 3カラムレイアウトで各APIのデータを表示
+2. ローディング表示とエラーハンドリング
+3. データ更新ボタン
+4. ダークモード切り替え
+5. レスポンシブデザイン
+
+ブラウザでindex.htmlを直接開いて動作確認できるようにしてください。
+外部CDNやライブラリは使用せず、純粋なHTML/CSS/JavaScriptのみで実装してください。
+
+【ステップ3: テスト】
+作成したファイルの構文チェック（node -c js/app.js等）を実行し、エラーがあれば修正してください。</textarea>
       </div>
 
       <div class="form-group">
         <label for="systemPrompt">システムプロンプト（役割設定）</label>
-        <textarea id="systemPrompt" placeholder="Claudeの振る舞いや役割を定義...">あなたは親切なアシスタントです。簡潔に日本語で回答してください。
-ファイルやディレクトリを作成する場合は、必ずカレントディレクトリ(./)に相対パスで作成してください。絶対パスや ~/my-work/ などは使用しないでください。</textarea>
+        <textarea id="systemPrompt" placeholder="Claudeの振る舞いや役割を定義...">あなたは経験豊富なソフトウェアエンジニアです。
+ファイルやディレクトリを作成する場合は、必ずカレントディレクトリ(./)に相対パスで作成してください。
+日本語で回答してください。</textarea>
       </div>
 
       <!-- 権限設定 -->
@@ -508,10 +575,23 @@
         <p class="tooltip">nvm等を使用時に node が見つからない場合、フルパスを指定（例: /Users/xxx/.nvm/versions/node/v20.10.0/bin/node）</p>
       </div>
 
-      <button class="btn btn-primary btn-generate" onclick="download()">ダウンロード (.mjs)</button>
     </div>
 
     <div class="panel output-panel">
+      <button class="btn btn-primary btn-generate" onclick="download()">ダウンロード (.mjs)</button>
+
+      <div class="next-steps">
+        <h3>📋 次のステップ</h3>
+        <ol>
+          <li>プロジェクトフォルダを作成</li>
+          <li>ダウンロードした <code>.mjs</code> ファイルをそのフォルダに配置</li>
+          <li>ターミナルでそのフォルダに移動</li>
+          <li>初回のみ: <code>npm init -y && npm i @anthropic-ai/claude-agent-sdk</code></li>
+          <li>実行: <code>node my_agent.mjs</code></li>
+        </ol>
+        <p class="note">※ 初回実行時は <code>workspace/</code> フォルダが自動作成されます<br>
+        ※ Claude Codeがインストール済みなら認証は自動で行われます</p>
+      </div>
       <div class="output-header">
         <h2>プレビュー</h2>
         <button class="btn btn-secondary" onclick="copyToClipboard()">コピー</button>
@@ -935,7 +1015,25 @@ ${options.join('\n')}
         if (block.type === "text") {
           console.log(block.text);
         } else if (block.type === "tool_use") {
-          console.log(\`[ツール: \${block.name}]\`);
+          console.log(\`\\n[ツール: \${block.name}]\`);
+          const inputStr = JSON.stringify(block.input, null, 2);
+          if (inputStr.length > 500) {
+            console.log(\`  入力: \${inputStr.slice(0, 500)}...(省略)\`);
+          } else {
+            console.log(\`  入力: \${inputStr}\`);
+          }
+        }
+      }
+    } else if (message.type === "user") {
+      // ツール結果を表示
+      for (const block of message.message.content) {
+        if (block.type === "tool_result") {
+          const content = block.content;
+          let resultStr = typeof content === "string" ? content : JSON.stringify(content);
+          if (resultStr.length > 300) {
+            resultStr = resultStr.slice(0, 300) + "...(省略)";
+          }
+          console.log(\`  結果: \${resultStr}\`);
         }
       }
     } else if (message.type === "result") {
@@ -969,14 +1067,21 @@ main().catch(console.error);
         if (/^\s*\/\//.test(line)) {
           return `<span class="hljs-comment">${line}</span>`;
         }
+        // プレースホルダーで文字列を一時退避
+        const strings = [];
+        line = line.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, (match) => {
+          strings.push(match);
+          return `__STRING_${strings.length - 1}__`;
+        });
         // キーワード
         line = line.replace(/\b(import|export|from|async|await|function|const|let|var|for|if|else|return|true|false|null)\b/g,
           '<span class="hljs-keyword">$1</span>');
-        // 文字列（シングルクォート、ダブルクォート）- バッククォートは除外
-        line = line.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g,
-          '<span class="hljs-string">$1</span>');
         // 数字
         line = line.replace(/\b(\d+)\b/g, '<span class="hljs-number">$1</span>');
+        // 文字列を復元してハイライト
+        line = line.replace(/__STRING_(\d+)__/g, (_, idx) => {
+          return `<span class="hljs-string">${strings[idx]}</span>`;
+        });
         return line;
       }).join('\n');
 
