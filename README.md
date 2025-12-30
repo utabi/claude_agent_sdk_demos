@@ -80,8 +80,8 @@ node 09_dev_cycle.mjs --task "FizzBuzz関数を実装して"
 Claude Code CLIで認証済みの場合、API KEYなしで利用可能。
 
 ```bash
-# Claude Code をインストール（npxで直接実行も可）
-npx @anthropic-ai/claude-code
+# Claude Code をインストール
+npm install -g @anthropic-ai/claude-code
 
 # 認証（ブラウザが開く）
 claude login
@@ -89,6 +89,8 @@ claude login
 # これでSDKも認証情報を自動的に使用する
 node 00_setup.mjs
 ```
+
+※ Claude Agent SDK（`@anthropic-ai/claude-agent-sdk`）は各プロジェクトで `npm install` が必要です。
 
 ### 方法2: API KEY
 
